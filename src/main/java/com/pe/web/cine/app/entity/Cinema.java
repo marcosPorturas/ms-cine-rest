@@ -4,6 +4,7 @@ package com.pe.web.cine.app.entity;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,6 +32,7 @@ import lombok.Setter;
 public class Cinema {
 
 	@Id
+	@Column(name="cod_cinema")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer codCinema;
 	

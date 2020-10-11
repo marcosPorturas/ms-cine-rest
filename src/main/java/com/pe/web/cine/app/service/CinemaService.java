@@ -9,10 +9,8 @@ import io.reactivex.Single;
 
 public interface CinemaService {
 
-	
 	Single<List<CinemaResponse>> getAllCinema();
-	
 	Single<CinemaResponse> getCinemaResponse(Integer codCinema);
-	
 	Single<CinemaResponse> addCinema(CinemaRequest cinemaRequest);
+	
 }
