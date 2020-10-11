@@ -49,4 +49,9 @@ public class CinemaController {
 	public Single<RoomResponse> addRoom(@RequestBody RoomRequest roomRequest){
 		return roomService.addRoom(roomRequest);
 	}
+	
+	@GetMapping("/room/{codRoom}")
+	public Single<RoomResponse> getRoomResponse(@PathVariable("codRoom")Integer codRoom){
+		return roomService.getRoomResponse(codRoom);
+	}
 }

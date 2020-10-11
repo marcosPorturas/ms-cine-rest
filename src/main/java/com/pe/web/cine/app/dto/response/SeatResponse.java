@@ -1,4 +1,4 @@
-package com.pe.web.cine.app.dto.request;
+package com.pe.web.cine.app.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,11 +11,14 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoomRequest {
+public class SeatResponse {
 	
-	private Integer codCinema;
-	private Integer numRow;
-	private Integer numSeat;
-	private Integer numRoom;
+	private Integer codSeat;
+	
+	private Integer positionRow;
+	
+	private Integer positionColumn;
+	
+	private String statusSeat;
 
 }

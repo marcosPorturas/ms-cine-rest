@@ -1,5 +1,7 @@
 package com.pe.web.cine.app.dto.response;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +26,8 @@ public class RoomResponse {
 	private Integer numRow;
 	
 	private Integer numSeat;
+	
+	private List<SeatResponse> listSeat;
 	
 	
 }

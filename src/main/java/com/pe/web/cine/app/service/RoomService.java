@@ -8,4 +8,6 @@ import io.reactivex.Single;
 public interface RoomService {
 
 	Single<RoomResponse> addRoom(RoomRequest roomRequest);
+	
+	Single<RoomResponse> getRoomResponse(Integer codRoom);
 }

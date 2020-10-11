@@ -1,9 +1,7 @@
 package com.pe.web.cine.app.dto.request;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pe.web.cine.app.dto.response.Geolocation;
 
 import lombok.AllArgsConstructor;
