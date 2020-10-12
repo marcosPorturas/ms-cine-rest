@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.pe.web.cine.app.dto.request.RoomRequest;
+import com.pe.web.cine.app.dto.response.InfoCinema;
 import com.pe.web.cine.app.dto.response.RoomResponse;
 import com.pe.web.cine.app.dto.response.SeatResponse;
 import com.pe.web.cine.app.entity.Cinema;
@@ -19,7 +20,10 @@ public class ConvertBuilderRoom {
 		return RoomResponse.builder()
 				.codRoom(room.getCodRoom())
 				.creationDate(Util.convertToStringDate(room.getCreationDate()))
-				.cinema(room.getCinema().getName())
+				.infoCinema(InfoCinema.builder()
+						.codCinema(room.getCinema().getCodCinema())
+						.name(room.getCinema().getName())
+						.build())
 				.numRoom(room.getNumRoom())
 				.numRow(room.getNumRow())
 				.numSeat(room.getNumSeat())

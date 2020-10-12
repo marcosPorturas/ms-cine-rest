@@ -17,7 +17,7 @@ public class RoomResponse {
 
 	private Integer codRoom;
 	
-	private String cinema;
+	private InfoCinema infoCinema;
 	
 	private String creationDate;
 	
