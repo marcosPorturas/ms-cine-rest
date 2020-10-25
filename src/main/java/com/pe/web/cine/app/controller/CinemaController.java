@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pe.web.cine.app.dto.request.CinemaRequest;
 import com.pe.web.cine.app.dto.request.RoomRequest;
+import com.pe.web.cine.app.dto.request.SeatRequest;
 import com.pe.web.cine.app.dto.response.CinemaResponse;
 import com.pe.web.cine.app.dto.response.RoomResponse;
+import com.pe.web.cine.app.dto.response.SeatResponse;
 import com.pe.web.cine.app.service.CinemaService;
 import com.pe.web.cine.app.service.RoomService;
+import com.pe.web.cine.app.service.SeatService;
 
 import io.reactivex.Single;
 
@@ -28,6 +31,9 @@ public class CinemaController {
 	
 	@Autowired
 	RoomService roomService;
+	
+	@Autowired
+	SeatService seatService;
 	
 	@GetMapping("/all")
 	public Single<List<CinemaResponse>> getAllCinema(){
@@ -53,5 +59,10 @@ public class CinemaController {
 	@GetMapping("/room/{codRoom}")
 	public Single<RoomResponse> getRoomResponse(@PathVariable("codRoom")Integer codRoom){
 		return roomService.getRoomResponse(codRoom);
+	}
+	
+	@PostMapping("/room/seat")
+	public Single<List<SeatResponse>> updateSeat(@RequestBody List<SeatRequest> listSeatRequest){
+		return seatService.updateSeatStatus(listSeatRequest);
 	}
 }
