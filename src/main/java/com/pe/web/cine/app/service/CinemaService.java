@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.pe.web.cine.app.dto.request.CinemaRequest;
 import com.pe.web.cine.app.dto.response.CinemaResponse;
+import reactor.core.publisher.Mono;
 
-import io.reactivex.Single;
 
 public interface CinemaService {
 
-	Single<List<CinemaResponse>> getAllCinema();
-	Single<CinemaResponse> getCinemaResponse(Integer codCinema);
-	Single<CinemaResponse> addCinema(CinemaRequest cinemaRequest);
+	Mono<List<CinemaResponse>> getAllCinema();
+	Mono<CinemaResponse> getCinemaResponse(Integer codCinema);
+	Mono<CinemaResponse> addCinema(CinemaRequest cinemaRequest);
 	
 }

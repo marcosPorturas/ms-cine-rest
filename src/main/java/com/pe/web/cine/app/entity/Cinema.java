@@ -46,8 +46,8 @@ public class Cinema {
 	private LocalDateTime creationDate;
 	
 	private LocalDateTime startDateOperation;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
+
+	@ManyToOne
 	@JoinColumn(name="cod_type_cinema",referencedColumnName="cod_type_cinema")
 	private TypeCinema typeCinema;
 	
