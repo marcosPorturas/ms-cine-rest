@@ -1,14 +1,12 @@
 package com.pe.web.cine.app.service.impl;
 
-import java.util.List;
-
+import com.pe.web.cine.app.model.CinemaRequest;
+import com.pe.web.cine.app.model.CinemaResponse;
 import com.pe.web.cine.app.service.CinemaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pe.web.cine.app.builder.ConvertBuilderCinema;
-import com.pe.web.cine.app.dto.request.CinemaRequest;
-import com.pe.web.cine.app.dto.response.CinemaResponse;
 import com.pe.web.cine.app.entity.Cinema;
 import com.pe.web.cine.app.repository.CinemaRepository;
 
@@ -22,11 +20,10 @@ public class CinemaServiceImplement implements CinemaService {
 	CinemaRepository cinemaRepository;
 
 	@Override
-	public Mono<List<CinemaResponse>> getAllCinema() {
+	public Flux<CinemaResponse> getAllCinema() {
 		// TODO Auto-generated method stub
 		return Flux.fromIterable(cinemaRepository.findAll())
-				.map(this::invokeCinemaResponseBuilder)
-				.collectList();
+				.map(this::invokeCinemaResponseBuilder);
 	}
 
 	@Override

@@ -1,67 +1,53 @@
 package com.pe.web.cine.app.controller;
 
-import java.util.List;
-
+import com.pe.web.cine.app.api.CinemasApi;
+import com.pe.web.cine.app.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pe.web.cine.app.dto.request.CinemaRequest;
-import com.pe.web.cine.app.dto.request.RoomRequest;
-import com.pe.web.cine.app.dto.request.SeatRequest;
-import com.pe.web.cine.app.dto.response.CinemaResponse;
-import com.pe.web.cine.app.dto.response.RoomResponse;
-import com.pe.web.cine.app.dto.response.SeatResponse;
 import com.pe.web.cine.app.service.CinemaService;
-import com.pe.web.cine.app.service.RoomService;
-import com.pe.web.cine.app.service.SeatService;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/cinema")
-public class CinemaController {
+public class CinemaController implements CinemasApi {
 
 	@Autowired
 	CinemaService cinemaService;
-	
-	@Autowired
-	RoomService roomService;
-	
-	@Autowired
-	SeatService seatService;
-	
-	@GetMapping("/all")
-	public Mono<List<CinemaResponse>> getAllCinema(){
-		return cinemaService.getAllCinema();
+
+	@Override
+	public Mono<ResponseEntity<CinemaResponse>> _addCinema(CinemaRequest cinemaRequest, ServerWebExchange exchange) {
+		return cinemaService.addCinema(cinemaRequest)
+				.map(result -> new ResponseEntity<>(result, HttpStatus.OK));
 	}
-	
-	@GetMapping("/{codCinema}")
-	public Mono<CinemaResponse> getCinemaResponse(@PathVariable("codCinema") 
-	Integer codCinema){
-		return cinemaService.getCinemaResponse(codCinema);
+
+	@Override
+	public Mono<ResponseEntity<RoomResponse>> _addRoomToCinema(RoomRequest roomRequest, ServerWebExchange exchange) {
+		return null;
 	}
-	
-	@PostMapping("/add")
-	public Mono<CinemaResponse> addCinema(@RequestBody CinemaRequest cinemaRequest){
-		return cinemaService.addCinema(cinemaRequest);
+
+	@Override
+	public Mono<ResponseEntity<CinemaResponse>> _findCinema(Integer codCinema, ServerWebExchange exchange) {
+		return cinemaService.getCinemaResponse(codCinema)
+				.map(result -> new ResponseEntity<>(result,HttpStatus.OK));
 	}
-	
-	@PostMapping("/room/add")
-	public Mono<RoomResponse> addRoom(@RequestBody RoomRequest roomRequest){
-		return roomService.addRoom(roomRequest);
+
+	@Override
+	public Mono<ResponseEntity<Flux<CinemaResponse>>> _findCinemasAll(ServerWebExchange exchange) {
+		return Mono.just(new ResponseEntity<>(cinemaService.getAllCinema(),HttpStatus.OK));
 	}
-	
-	@GetMapping("/room/{codRoom}")
-	public Mono<RoomResponse> getRoomResponse(@PathVariable("codRoom")Integer codRoom){
-		return roomService.getRoomResponse(codRoom);
+
+	@Override
+	public Mono<ResponseEntity<RoomResponse>> _getInfoRoom(Integer codRoom, ServerWebExchange exchange) {
+		return null;
 	}
-	
-	@PostMapping("/room/seat")
-	public Mono<List<SeatResponse>> updateSeat(@RequestBody List<SeatRequest> listSeatRequest){
-		return seatService.updateSeatStatus(listSeatRequest);
+
+	@Override
+	public Mono<ResponseEntity<SeatResponse>> _updateInfoStatusSeatIntoRoom(ServerWebExchange exchange) {
+		return null;
 	}
 }

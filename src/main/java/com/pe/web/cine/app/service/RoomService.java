@@ -1,8 +1,8 @@
 package com.pe.web.cine.app.service;
 
-import com.pe.web.cine.app.dto.request.RoomRequest;
-import com.pe.web.cine.app.dto.response.RoomResponse;
 
+import com.pe.web.cine.app.model.RoomRequest;
+import com.pe.web.cine.app.model.RoomResponse;
 import reactor.core.publisher.Mono;
 
 public interface RoomService {
