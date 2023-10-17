@@ -2,10 +2,10 @@ package com.pe.web.cine.app.controller;
 
 import com.pe.web.cine.app.api.CinemasApi;
 import com.pe.web.cine.app.model.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pe.web.cine.app.service.CinemaService;
@@ -14,6 +14,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
+@Slf4j
 public class CinemaController implements CinemasApi {
 
 	@Autowired
