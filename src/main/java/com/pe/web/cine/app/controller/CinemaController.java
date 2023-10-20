@@ -2,6 +2,7 @@ package com.pe.web.cine.app.controller;
 
 import com.pe.web.cine.app.api.CinemasApi;
 import com.pe.web.cine.app.model.*;
+import com.pe.web.cine.app.service.RoomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ public class CinemaController implements CinemasApi {
 	@Autowired
 	CinemaService cinemaService;
 
+	@Autowired
+	RoomService roomService;
+
 	@Override
 	public Mono<ResponseEntity<CinemaResponse>> _addCinema(CinemaRequest cinemaRequest, ServerWebExchange exchange) {
 		return cinemaService.addCinema(cinemaRequest)
@@ -28,7 +32,8 @@ public class CinemaController implements CinemasApi {
 
 	@Override
 	public Mono<ResponseEntity<RoomResponse>> _addRoomToCinema(RoomRequest roomRequest, ServerWebExchange exchange) {
-		return null;
+		return roomService.addRoom(roomRequest)
+				.map(result -> new ResponseEntity<>(result,HttpStatus.OK));
 	}
 
 	@Override
@@ -44,7 +49,8 @@ public class CinemaController implements CinemasApi {
 
 	@Override
 	public Mono<ResponseEntity<RoomResponse>> _getInfoRoom(Integer codRoom, ServerWebExchange exchange) {
-		return null;
+		return roomService.getRoomResponse(codRoom)
+				.map(result -> new ResponseEntity<>(result,HttpStatus.OK));
 	}
 
 	@Override
