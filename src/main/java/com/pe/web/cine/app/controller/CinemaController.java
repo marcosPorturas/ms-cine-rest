@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pe.web.cine.app.dto.request.SeatRequest;
 import com.pe.web.cine.app.model.CinemaRequest;
 import com.pe.web.cine.app.model.CinemaResponse;
 import com.pe.web.cine.app.model.RoomRequest;
 import com.pe.web.cine.app.model.RoomResponse;
+import com.pe.web.cine.app.model.SeatRequest;
 import com.pe.web.cine.app.model.SeatResponse;
 import com.pe.web.cine.app.service.CinemaService;
 import com.pe.web.cine.app.service.RoomService;

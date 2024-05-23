@@ -43,7 +43,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CinemaResponse'
-
   /cinemas/add:
     post:
       tags:
@@ -113,6 +112,14 @@ paths:
       summary: update info Seat into Room
       description: Update info seat info Room
       operationId: updateInfoStatusSeatIntoRoom
+      requestBody:
+        description: Create a new Cinema in the Bussines
+        content:
+          application/json:
+            schema:
+              type : array
+              items:
+                $ref: '#/components/schemas/SeatRequest'
       responses:
         '200':
           description: Successful operation
@@ -131,6 +138,15 @@ components:
         name:
           type: string
           example: "Cineplanet"
+    SeatRequest:
+      type: object
+      properties:
+        codSeat: 
+          type: integer
+          example: 100001
+        statusSeat:
+          type: string
+          example: "0"
     SeatResponse:
       type: object
       properties:
