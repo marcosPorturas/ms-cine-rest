@@ -2,11 +2,11 @@ package com.pe.web.cine.app.builder;
 
 import java.time.LocalDateTime;
 
-import com.pe.web.cine.app.dto.request.CinemaRequest;
-import com.pe.web.cine.app.dto.response.CinemaResponse;
-import com.pe.web.cine.app.dto.response.Geolocation;
 import com.pe.web.cine.app.entity.Cinema;
 import com.pe.web.cine.app.entity.TypeCinema;
+import com.pe.web.cine.app.model.CinemaRequest;
+import com.pe.web.cine.app.model.CinemaResponse;
+import com.pe.web.cine.app.model.Geolocation;
 import com.pe.web.cine.app.utilitario.Constants;
 import com.pe.web.cine.app.utilitario.Util;
 
@@ -16,7 +16,7 @@ public class ConvertBuilderCinema {
 		return Cinema.builder()
 				.name(cinemaRequest.getName())
 				.enabled(Constants.ENABLED)
-				.startDateOperation(cinemaRequest.getStartDateOperation())
+				.startDateOperation(LocalDateTime.parse(cinemaRequest.getStartDateOperation()))
 				.creationDate(LocalDateTime.now())
 				.department(cinemaRequest.getGeolocation().getDepartment())
 				.province(cinemaRequest.getGeolocation().getProvince())
@@ -27,21 +27,21 @@ public class ConvertBuilderCinema {
 	}
 	
 	public CinemaResponse convertToCinemaResponse(Cinema cinema) {
-		return CinemaResponse.builder()
-				.codCinema(cinema.getCodCinema())
-				.name(cinema.getName())
-				.startDateOperation(Util.convertToStringDate(cinema.getStartDateOperation()))
-				.typeCinema(cinema.getTypeCinema().getDescription())
-				.geolocation(convertToGeolocation(cinema))
-				.build();
+		CinemaResponse cinemaResponse = new CinemaResponse();
+		cinemaResponse.setCodCinema(cinema.getCodCinema());
+		cinemaResponse.setName(cinema.getName());
+		cinemaResponse.setStartDateOperation(Util.convertToStringDate(cinema.getStartDateOperation()));
+		cinemaResponse.setTypeCinema(cinema.getTypeCinema().getDescription());
+		cinemaResponse.setGeolocation(convertToGeolocation(cinema));
+		return cinemaResponse;
 	}
 	
 	public Geolocation convertToGeolocation(Cinema cinema) {
-		return Geolocation.builder()
-				.department(cinema.getDepartment())
-				.province(cinema.getProvince())
-				.district(cinema.getDistrict())
-				.build();
+		Geolocation geolocation = new Geolocation();
+		geolocation.setDepartment(cinema.getDepartment());
+		geolocation.setProvince(cinema.getProvince());
+		geolocation.setDistrict(cinema.getDistrict());
+		return geolocation;
 	}
 	
 	public TypeCinema convertToTypeCinema(CinemaRequest cinemaRequest) {

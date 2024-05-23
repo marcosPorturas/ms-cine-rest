@@ -1,0 +1,7 @@
+spring:
+  main:
+    web-application-type: reactive
+  datasource:
+    url: jdbc:sqlserver://LIM-3G3B6J3:1433;encrypt=false;trustServerCertificate=false;databaseName=BDCINEPLANET
+    username: sa
+    password: Cele2125...

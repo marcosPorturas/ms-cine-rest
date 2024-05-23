@@ -1,0 +1,230 @@
+openapi: 3.0.1
+info:
+  title: Microservice ms-cinema-rest
+  description: |-
+    This is a sample partner Server based on the OpenAPI 3.0 specification.  You can find out more about
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /cinemas/all:
+    get:
+      tags:
+        - cinemas
+      summary: Finds all cinemas info
+      description: find all cinemas
+      operationId: findCinemasAll
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CinemaResponse'
+  /cinemas/{codCinema}:
+    get:
+      tags:
+        - cinema
+      summary: Find cinema all info
+      description: find one cinema info
+      operationId: findCinema
+      parameters:
+        - in: path
+          required: true
+          name: codCinema
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CinemaResponse'
+
+  /cinemas/add:
+    post:
+      tags:
+        - addCinema
+      summary: Add new Cinema
+      description: Add new Cinema
+      operationId: addCinema
+      requestBody:
+        description: Create a new Cinema in the Bussines
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CinemaRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CinemaResponse'
+  /cinemas/room/add:
+    post:
+      tags:
+        - addRoom
+      summary: Add Cinema's Room
+      description: Add Cinema's Rooms
+      operationId: addRoomToCinema
+      requestBody:
+        description: Create a new Cinemas's Room in the Bussines
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoomRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoomResponse'
+  /cinemas/room/{codRoom}:
+    get:
+      tags:
+        - allInfoRoom
+      summary: List seat into room
+      description: Get room's seat
+      operationId: getInfoRoom
+      parameters:
+        - in: path
+          required: true
+          name: codRoom
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoomResponse'
+  /cinemas/room/seat:
+    post:
+      tags:
+        - updateInfoSeatIntoRoom
+      summary: update info Seat into Room
+      description: Update info seat info Room
+      operationId: updateInfoStatusSeatIntoRoom
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatResponse'
+components:
+  schemas:
+    InfoCinema:
+      type: object
+      properties:
+        codCinema:
+          type: integer
+          example: 10001
+        name:
+          type: string
+          example: "Cineplanet"
+    SeatResponse:
+      type: object
+      properties:
+        codSeat:
+          type: integer
+          example: 20002
+        positionRow:
+          type: integer
+          example: 3
+        positionColumn:
+          type: integer
+          example: 4
+        statusSeat:
+          type: string
+          example: "Disponible"
+    RoomResponse:
+      type: object
+      properties:
+        codRoom:
+          type: integer
+          example: 30003
+        infoCinema:
+          $ref : '#/components/schemas/InfoCinema'
+        creationDate:
+          type: string
+          example: "15-07-2023"
+        numRoom:
+          type: integer
+          example: 302
+        numRow:
+          type: integer
+          example: 2
+        numSeat:
+          type: integer
+          example: 4
+        listSeat:
+          type: array
+          items:
+            $ref : '#/components/schemas/SeatResponse'
+    RoomRequest:
+      type: object
+      properties:
+        codCinema:
+          type: integer
+          example: 20002
+        numRow:
+          type: integer
+          example: 3
+        numSeat:
+          type: integer
+          example: 4
+        numRoom:
+          type: integer
+          example: 203
+    CinemaRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Cinemark"
+        startDateOperation:
+          type: string
+          example: "12-12-1989"
+        typeCinema:
+          type: integer
+          example: 1
+        geolocation:
+          $ref : '#/components/schemas/Geolocation'
+    CinemaResponse:
+      type: object
+      properties:
+        codCinema:
+          type: integer
+          example: 10009
+        name:
+          type: string
+          example: "CineUBKLarcomar"
+        startDateOperation:
+          type: string
+          example: "12-09-2023"
+        typeCinema:
+          type: string
+          example: "premium"
+        geolocation:
+          $ref : '#/components/schemas/Geolocation'
+    Geolocation:
+      type: object
+      properties:
+        department:
+          type: string
+          example: "Lima"
+        province:
+          type: string
+          example: "Lima"
+        district:
+          type: string
+          example: "Lima"

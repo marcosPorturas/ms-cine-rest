@@ -1,4 +1,4 @@
-package com.pe.web.cine.app.service;
+package com.pe.web.cine.app.service.impl;
 
 import java.util.List;
 
@@ -6,13 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pe.web.cine.app.builder.ConvertBuilderCinema;
-import com.pe.web.cine.app.dto.request.CinemaRequest;
-import com.pe.web.cine.app.dto.response.CinemaResponse;
-import com.pe.web.cine.app.entity.Cinema;
-import com.pe.web.cine.app.repository.CinemaRepository;
 
-import io.reactivex.Observable;
-import io.reactivex.Single;
+import com.pe.web.cine.app.entity.Cinema;
+import com.pe.web.cine.app.model.CinemaRequest;
+import com.pe.web.cine.app.model.CinemaResponse;
+import com.pe.web.cine.app.repository.CinemaRepository;
+import com.pe.web.cine.app.service.CinemaService;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class CinemaServiceImplement implements CinemaService{
@@ -21,30 +23,29 @@ public class CinemaServiceImplement implements CinemaService{
 	CinemaRepository cinemaRepository;
 
 	@Override
-	public Single<List<CinemaResponse>> getAllCinema() {
+	public Mono<List<CinemaResponse>> getAllCinema() {
 		// TODO Auto-generated method stub
-		return Observable.fromIterable(cinemaRepository.findAll())
+		return Flux.fromIterable(cinemaRepository.findAll())
 				.map(this::invokeCinemaResponseBuilder)
-				.toList();
+				.collectList();
+				
 	}
 
 	@Override
-	public Single<CinemaResponse> getCinemaResponse(Integer codCinema) {
+	public Mono<CinemaResponse> getCinemaResponse(Integer codCinema) {
 		// TODO Auto-generated method stub
-		return Single.just(cinemaRepository.findById(codCinema)
+		return Mono.just(cinemaRepository.findById(codCinema)
 				.orElse(null))
 				.map(this::invokeCinemaResponseBuilder);
 	}
 
 	@Override
-	public Single<CinemaResponse> addCinema(CinemaRequest cinemaRequest) {
+	public Mono<CinemaResponse> addCinema(CinemaRequest cinemaRequest) {
 		// TODO Auto-generated method stub
-		return Single.just(cinemaRequest)
-				.map(this::invokeCinemaEntityBuilder)
-				.map(cinemaRepository::save)
-				.map(cinema->cinemaRepository.findById(cinema.getCodCinema())
-						.orElse(null))
-				.map(this::invokeCinemaResponseBuilder);
+		return Mono.just(cinemaRequest)
+				.map(request -> invokeCinemaEntityBuilder(request))
+				.map(entity -> cinemaRepository.save(entity))
+				.map(save -> invokeCinemaResponseBuilder(save));
 	}
 	
 	public CinemaResponse invokeCinemaResponseBuilder(Cinema cinema) {
