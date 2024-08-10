@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
 import com.pe.web.cine.app.builder.ConvertBuilderRoom;
 import com.pe.web.cine.app.dto.request.RoomRequest;
 import com.pe.web.cine.app.dto.response.RoomResponse;
@@ -19,16 +16,11 @@ import com.pe.web.cine.app.repository.RoomRepository;
 import com.pe.web.cine.app.repository.SeatRepository;
 import com.pe.web.cine.app.utilitario.Constants;
 
-import io.reactivex.Single;
+import reactor.core.publisher.Mono;
 
 
 @Service
 public class RoomServiceImplement implements RoomService{
-
-	@Autowired
-	Gson gson = new Gson();
-
-	Logger logger = LoggerFactory.getLogger(RoomServiceImplement.class);
 	
 	@Autowired
 	RoomRepository roomRepository;
@@ -67,9 +59,9 @@ public class RoomServiceImplement implements RoomService{
 	}
 	
 	@Override
-	public Single<RoomResponse> addRoom(RoomRequest roomRequest) {
+	public Mono<RoomResponse> addRoom(RoomRequest roomRequest) {
 		// TODO Auto-generated method stub
-		return Single.just(roomRequest)
+		return Mono.just(roomRequest)
 				.map(this::invokeBuilderRoom)
 				.map(roomRepository::save)
 				.map(room->roomRepository.findById(room.getCodRoom())
@@ -78,16 +70,16 @@ public class RoomServiceImplement implements RoomService{
 	}
 
 	@Override
-	public Single<RoomResponse> getRoomResponse(Integer codRoom) {
+	public Mono<RoomResponse> getRoomResponse(Integer codRoom) {
 		// TODO Auto-generated method stub
 		
-		Single<Room> singleRoom = Single.just(roomRepository.findById(codRoom)
+		Mono<Room> singleRoom = Mono.just(roomRepository.findById(codRoom)
 				.orElse(null));
 		
-		Single<List<Seat>> singleListSeat = Single
+		Mono<List<Seat>> singleListSeat = Mono
 				.just(seatRepository.findByCodRoom(codRoom));
 		
-		return Single.zip(singleRoom,singleListSeat,
+		return Mono.zip(singleRoom,singleListSeat,
 				(room,listSeat)->invokeBuilderRoomResponse(room,listSeat));
 	}
 

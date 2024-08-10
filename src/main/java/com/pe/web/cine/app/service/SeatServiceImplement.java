@@ -13,8 +13,8 @@ import com.pe.web.cine.app.dto.response.SeatResponse;
 import com.pe.web.cine.app.entity.Seat;
 import com.pe.web.cine.app.repository.SeatRepository;
 
-import io.reactivex.Observable;
-import io.reactivex.Single;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class SeatServiceImplement implements SeatService{
@@ -34,19 +34,19 @@ public class SeatServiceImplement implements SeatService{
 	}
 
 	@Override
-	public Single<List<SeatResponse>> updateSeatStatus(List<SeatRequest> listSeatRequest) {
+	public Mono<List<SeatResponse>> updateSeatStatus(List<SeatRequest> listSeatRequest) {
 		// TODO Auto-generated method stub
 		List<Integer> idsSeat = new ArrayList<>();
 		listSeatRequest.forEach(seat->idsSeat.add(seat.getCodSeat()));		
 		
-		return Observable.fromIterable(listSeatRequest)
+		return Flux.fromIterable(listSeatRequest)
 				.map(seatRequest->{
 					Seat seat = seatRepository.findById(seatRequest.getCodSeat())
 							.orElse(null);
 					seat.setStatusSeat(getStatus(seatRequest));
 					return seatRepository.save(seat);
 				})
-				.toSortedList(Comparator.comparingInt(Seat::getCodSeat))
+				.collectSortedList(Comparator.comparingInt(Seat::getCodSeat))
 				.map(this::convertBuilderListSeatRespone);
 	}
 	

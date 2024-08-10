@@ -55,6 +55,11 @@
     		<artifactId>lombok</artifactId>
 		</dependency>
 		<dependency>
+      		<groupId>jakarta.servlet</groupId>
+      		<artifactId>jakarta.servlet-api</artifactId>
+      <scope>provided</scope>
+    	</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -79,12 +84,16 @@
 			            </goals>
 			            <configuration>
 			                <skipValidateSpec>false</skipValidateSpec>
-			                <inputSpec>./src/main/resources/openapi_cinema.yml</inputSpec>
+			                <inputSpec>${project.basedir}/src/main/resources/openapi_cinema.yml</inputSpec>
 			                <generatorName>spring</generatorName>
-			                <configOptions>
-			                    <openApiNullable>false</openApiNullable>
-			                    <interfaceOnly>true</interfaceOnly>
-			                </configOptions>
+		                    <configOptions>
+		                        <useSpringBoot3>true</useSpringBoot3>
+		                        <delegatePattern>false</delegatePattern>
+		                        <generateSupportingFiles>false</generateSupportingFiles>
+		                        <openApiNullable>false</openApiNullable>
+		                        <interfaceOnly>true</interfaceOnly>
+		                        <useJakartaEe>true</useJakartaEe>
+		                    </configOptions>
 			            </configuration>
 			        </execution>
     			</executions>

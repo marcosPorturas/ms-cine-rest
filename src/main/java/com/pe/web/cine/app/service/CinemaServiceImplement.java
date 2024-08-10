@@ -11,8 +11,8 @@ import com.pe.web.cine.app.dto.response.CinemaResponse;
 import com.pe.web.cine.app.entity.Cinema;
 import com.pe.web.cine.app.repository.CinemaRepository;
 
-import io.reactivex.Observable;
-import io.reactivex.Single;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class CinemaServiceImplement implements CinemaService{
@@ -21,25 +21,25 @@ public class CinemaServiceImplement implements CinemaService{
 	CinemaRepository cinemaRepository;
 
 	@Override
-	public Single<List<CinemaResponse>> getAllCinema() {
+	public Mono<List<CinemaResponse>> getAllCinema() {
 		// TODO Auto-generated method stub
-		return Observable.fromIterable(cinemaRepository.findAll())
+		return Flux.fromIterable(cinemaRepository.findAll())
 				.map(this::invokeCinemaResponseBuilder)
-				.toList();
+				.collectList();
 	}
 
 	@Override
-	public Single<CinemaResponse> getCinemaResponse(Integer codCinema) {
+	public Mono<CinemaResponse> getCinemaResponse(Integer codCinema) {
 		// TODO Auto-generated method stub
-		return Single.just(cinemaRepository.findById(codCinema)
+		return Mono.just(cinemaRepository.findById(codCinema)
 				.orElse(null))
 				.map(this::invokeCinemaResponseBuilder);
 	}
 
 	@Override
-	public Single<CinemaResponse> addCinema(CinemaRequest cinemaRequest) {
+	public Mono<CinemaResponse> addCinema(CinemaRequest cinemaRequest) {
 		// TODO Auto-generated method stub
-		return Single.just(cinemaRequest)
+		return Mono.just(cinemaRequest)
 				.map(this::invokeCinemaEntityBuilder)
 				.map(cinemaRepository::save)
 				.map(cinema->cinemaRepository.findById(cinema.getCodCinema())
